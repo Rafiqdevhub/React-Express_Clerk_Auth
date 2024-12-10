@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useAuth, SignOutButton } from "@clerk/clerk-react";
-import axios from "axios";
 
 const Dashboard = () => {
   const { userId, signOut } = useAuth();
@@ -10,10 +9,14 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
-        const response = await axios(
+        const response = await fetch(
           `http://localhost:5000/${userId}/dashboard`
         );
-        setUserDetails(response.data);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        setUserDetails(data);
       } catch (error) {
         console.error(error);
       } finally {
