@@ -24,7 +24,7 @@ const clerkClient = createClerkClient({
 app.use(clerkMiddleware({ client: clerkClient }));
 
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to the Clerk Authentication App" });
+  res.json({ message: "Welcome to the Clerk Auth" });
 });
 
 app.get("/:userId/dashboard", async (req, res) => {
