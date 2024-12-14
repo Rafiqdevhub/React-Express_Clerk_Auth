@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth, SignOutButton } from "@clerk/clerk-react";
 
 const Dashboard = () => {
-  const { userId, signOut } = useAuth();
+  const { userId } = useAuth();
   const [userDetails, setUserDetails] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -25,25 +25,11 @@ const Dashboard = () => {
     };
 
     if (userId) {
-      fetchUserDetails();
+      fetchUserDetails()
     }
 
-    const handleBeforeUnload = async () => {
-      if (userId) {
-        try {
-          await signOut();
-        } catch (error) {
-          console.error("Error logging out before unload:", error);
-        }
-      }
-    };
 
-    window.addEventListener("beforeunload", handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, [userId, signOut]);
+  }, [userId]);
 
   if (!userDetails) {
     return (
@@ -71,7 +57,7 @@ const Dashboard = () => {
         <p className="text-gray-700 text-lg mb-4">{userDetails.message}</p>
         <div className="space-y-2">
           <p className="text-gray-600">
-            <strong className="text-gray-800">User ID:</strong>{" "}
+            <strong className="text-gray-800">UserId:</strong>{" "}
             {userDetails.userId}
           </p>
           <p className="text-gray-600">
