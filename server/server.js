@@ -29,22 +29,19 @@ app.get("/", (req, res) => {
 
 app.get("/:userId/dashboard", async (req, res) => {
   const { userId } = req.params;
-
   try {
     const user = await clerkClient.users.getUser(userId);
-    console.log(user);
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
     res.status(200).json({
-      message: `${user.username || "No username available"}'s dashboard`,
+      message: `${user.username || "User not available"}'s dashboard`,
       userId: user.id,
-      username: user.username || "No username available",
+      username: user.username || "Username not found",
       email: user.emailAddresses[0]?.emailAddress || "email not found",
     });
   } catch (error) {
-    console.error("Error fetching user:", error.response || error.message);
     res.status(500).json({ error: "Error retrieving user data" });
   }
 });
